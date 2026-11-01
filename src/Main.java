@@ -18,7 +18,6 @@ public class Main {
                 String response;
 
                 if ("GET".equalsIgnoreCase(method)) {
-                    // Friendly message when opened in a browser
                     response = "{\n" +
                             "  \"message\": \"Welcome to the Dummy E-commerce API!\",\n" +
                             "  \"endpoints\": {\n" +
@@ -29,19 +28,17 @@ public class Main {
                     sendResponse(exchange, 200, response);
 
                 } else if ("POST".equalsIgnoreCase(method)) {
-                    // 1. Place Order Method
                     response = placeOrder();
                     sendResponse(exchange, 200, response);
 
                 } else if ("DELETE".equalsIgnoreCase(method)) {
-                    // 2. Cancel Order Method
                     String[] segments = path.split("/");
                     String orderId = (segments.length > 3) ? segments[3] : "UNKNOWN_ID";
                     response = cancelOrder(orderId);
                     sendResponse(exchange, 200, response);
 
                 } else {
-                    exchange.sendResponseHeaders(405, -1); // Method Not Allowed
+                    exchange.sendResponseHeaders(405, -1);
                 }
             }
         });
@@ -60,14 +57,13 @@ public class Main {
                 "}";
     }
 
-    public static String cancelOrder(String orderId) {
-        // Endpoint requires order ID and changes status to cancelled
-        return "{\n" +
-                "  \"status\": \"CANCELLED\",\n" +
-                "  \"message\": \"Order " + orderId + " has been successfully cancelled.\",\n" +
-                "  \"orderId\": \"" + orderId + "\"\n" +
-                "}";
-    }
+//    public static String cancelOrder(String orderId) {
+//        return "{\n" +
+//                "  \"status\": \"CANCELLED\",\n" +
+//                "  \"message\": \"Order " + orderId + " has been successfully cancelled.\",\n" +
+//                "  \"orderId\": \"" + orderId + "\"\n" +
+//                "}";
+//    }
 
     private static void sendResponse(HttpExchange exchange, int statusCode, String response) throws IOException {
         exchange.getResponseHeaders().set("Content-Type", "application/json");
